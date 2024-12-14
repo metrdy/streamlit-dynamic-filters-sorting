@@ -159,7 +159,8 @@ class DynamicFilters:
 
         for filter_name in st.session_state[self.filters_name].keys():
             filtered_df = self.filter_df(filter_name)
-            options = filtered_df[filter_name].unique().tolist()
+            options = filtered_df[filter_name].tolist()
+            options = list(dict.fromkeys(sorted(options, key=spec_collapse.count, reverse = True)))
 
             # Remove selected values that are not in options anymore
             valid_selections = [v for v in st.session_state[self.filters_name][filter_name] if v in options]
@@ -169,13 +170,11 @@ class DynamicFilters:
 
             if location == 'sidebar':
                 with st.sidebar:
-                    options = list(dict.fromkeys(sorted(options, key=spec_collapse.count, reverse = True)))
                     selected = st.multiselect(f"Select {filter_name}", options,
                                               default=st.session_state[self.filters_name][filter_name],
                                               key=self.filters_name + filter_name)
             elif location == 'columns' and num_columns > 0:
                 with col_list[counter - 1]:
-                    options = list(dict.fromkeys(sorted(options, key=spec_collapse.count, reverse = True)))
                     selected = st.multiselect(f"Select {filter_name}", options,
                                               default=st.session_state[self.filters_name][filter_name],
                                               key=self.filters_name + filter_name)
@@ -186,7 +185,6 @@ class DynamicFilters:
                 if counter == 0:
                     counter = 1
             else:
-                options = list(dict.fromkeys(sorted(options, key=spec_collapse.count, reverse = True)))
                 selected = st.multiselect(f"Select {filter_name}", options,
                                           default=st.session_state[self.filters_name][filter_name],
                                               key=self.filters_name + filter_name)
