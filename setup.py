@@ -10,7 +10,7 @@ with open("CHANGELOG.md", "r", encoding="utf-8") as fh:
     changelog = fh.read()
 
 setup(
-    name="streamlit_dynamic_filters_sorting",
+    name="streamlit_dynamic_filters",
     version=VERSION,
     author="Oleksandr Arsentiev",
     author_email="<arsentiev9393@gmail.com>",
